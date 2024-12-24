@@ -87,7 +87,7 @@ function createPrompt(file: File, chunk: Chunk, prDetails: PRDetails): string {
 - Use the given description only for the overall context and only comment the code.
 - Provide a better translation or correction to improve clarity and readability.
 - For domain models defined in .proto files, ensure that the terminology is consistent throughout the code.
-- To meeting CQRS and Event-Sourcing pattern, verify that event messages are written in past tense to align with event sourcing conventions and Request and Response messages end with Request and Response respectively. Also confirm that Notice messages end with Notice.
+- To meeting CQRS and Event-Sourcing pattern, verify that event messages end with verbs in past tense and should not end with Event. Ensure that Request and Response messages end with Request and Response respectively. Also confirm that Notice messages end with Notice.
 - IMPORTANT: NEVER suggest adding comments to the code.
 
 Review the following code diff in the file "${
@@ -142,15 +142,7 @@ async function getAIResponse(prompt: string): Promise<Array<{
     });
 
     const res = response.choices[0].message?.content?.trim() || "{}";
-    // return JSON.parse(res).reviews;
-
-    try {
-      return JSON.parse(res).reviews;
-    } catch (error) {
-      console.error("Error:", error);
-      console.error("Response:", res);
-      throw error;
-    }
+    return JSON.parse(res).reviews;
   } catch (error) {
     console.error("Error:", error);
     return null;
