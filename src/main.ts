@@ -7,7 +7,7 @@ import minimatch from "minimatch";
 
 const GITHUB_TOKEN: string = core.getInput("GITHUB_TOKEN");
 const OPENAI_API_KEY: string = core.getInput("OPENAI_API_KEY");
-const OPENAI_API_MODEL: string = core.getInput("OPENAI_API_MODEL");
+const OPENAI_API_MODEL: string = "gpt-4o"; //core.getInput("OPENAI_API_MODEL");
 
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
@@ -85,6 +85,9 @@ function createPrompt(file: File, chunk: Chunk, prDetails: PRDetails): string {
 - Provide comments and suggestions ONLY if there is something to improve, otherwise "reviews" should be an empty array.
 - Write the comment in GitHub Markdown format.
 - Use the given description only for the overall context and only comment the code.
+- Provide a better translation or correction to improve clarity and readability.
+- For domain models defined in .proto files, ensure that the terminology is consistent throughout the code.
+- To meeting CQRS and Event-Sourcing pattern, verify that event messages are written in past tense to align with event sourcing conventions and Request and Response messages end with Request and Response respectively. Also confirm that Notice messages end with Notice.
 - IMPORTANT: NEVER suggest adding comments to the code.
 
 Review the following code diff in the file "${
